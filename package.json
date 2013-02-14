@@ -1,0 +1,11 @@
+{
+  "name": "whereshouldieat",
+  "version": "0.0.1",
+  "description": "Where should I eat?",
+  "author": "Majid Garmaroudi <majid.sadeghi@gmail.com>",
+  "dependencies": {
+    "express": ">= 1.2.0",
+    "optimist": ">= 0.1.0"
+  },
+  "engine": "node 0.8.19"
+}
