@@ -2,9 +2,9 @@
 <head>
 	<title>Where should I eat?</title>
 	<script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFoZAd_6SBPJBMXybVDknm0UjsTO5A0ps&sensor=true">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFoZAd_6SBPJBMXybVDknm0UjsTO5A0ps&sensor=true&libraries=places">
     </script>
-    <script type="text/javascript" src="http://localhost:81/whereshouldieat/main.js"></script> 
+    <script type="text/javascript" src="main.js"></script> 
     <script type="text/javascript">
     	var main = new Main();
     </script>
@@ -12,6 +12,9 @@
 <body>
 	<h1>You should eat here:</h1>
 	<div id="demo"></div>
+    <div id="place"></div>
+    <br />
+    <a href="#" onclick="showNext();">Next</a>
 	<div id="map_canvas" style="width:70%; height:70%"></div>
 </body>
 </html>
