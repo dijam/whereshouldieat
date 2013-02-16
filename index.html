@@ -1,20 +1,45 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Where should I eat?</title>
 	<script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFoZAd_6SBPJBMXybVDknm0UjsTO5A0ps&sensor=true&libraries=places">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFoZAd_6SBPJBMXybVDknm0UjsTO5A0ps&sensor=false&libraries=places">
     </script>
-    <script type="text/javascript" src="main.js"></script> 
+    <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript">
     	var main = new Main();
     </script>
+    <link rel="stylesheet" type="text/css" href="css/all.css">
 </head>
 <body>
-	<h1>You should eat here:</h1>
-	<div id="demo"></div>
-    <div id="place"></div>
-    <br />
-    <a href="#" onclick="showNext();">Next</a>
-	<div id="map_canvas" style="width:70%; height:70%"></div>
+    <div class="main">
+        <div class="header">
+            <h1>You should eat here!?</h1>
+        </div>
+        <hr />
+        <div class="spacer"></div>
+        <div class="body">
+            <div class="place">
+                <div id="message"></div>
+                <div id="place">
+                    <div id="place_street_view"></div>
+                    <div id="place_title"></div>
+                </div>
+                <br />
+                <div class="next">
+                    <img id="redo" onclick="showNext();" src="img/arrow-redo-icon.png" />
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <hr />
+            <div class="map">
+                <div id="map_canvas"></div>
+            </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="footer">
+            <span>By Majid Garmaroudi 2013</span>
+        </div>
+    </div>
 </body>
 </html>
