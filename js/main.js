@@ -40,9 +40,11 @@ function setLocation() {
 function setPosition(position) {
 	// Uncomment to enable auto location finder
 	// console.log("Your location: " + position);
-	// window.position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	window.position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-	window.position = new google.maps.LatLng(59.34702, 18.040195); // Uncomment for manual location
+	// Uncomment for manual location
+	// 59.34702, 18.040195 - Test Location!
+	// window.position = new google.maps.LatLng(59.17584, 16.430054);
 	window.map = setGoogleMap(window.position);
 
 	window.map.setCenter(window.position);
@@ -111,7 +113,7 @@ function callbackPlaces(results, status){
 		showLocation(window.places[0]);
 		window.count = 0;
 	} else {
-		console.log("No results");
+		showErrorMessage("Sorry! Nowhere for you to eat!");
 	}
 }
 
@@ -165,7 +167,7 @@ function formatAddress(address) {
 
 function showErrorMessage(message) {
 	var messageElement = document.getElementById("message");
-	messageElement.innerHTML = messageElement.innerHTML + "<strong>Warning!</strong> " + message;
+	messageElement.innerHTML = messageElement.innerHTML + message;
 	messageElement.className = "alert alert-error";
 }
 
