@@ -1,7 +1,11 @@
 var Main = {};
 
 var Main = function(){
-
+	// if (1 == 2)
+	if(navigator.appName == "Microsoft Internet Explorer") {
+		alert("Internet Explorer! You better go out and search like the old time or simply come back with a better browser!");
+		exit();
+	}
 	this.init = function(){
 		setLocation();
 	};
@@ -44,7 +48,7 @@ function setPosition(position) {
 
 	// Uncomment for manual location
 	// 59.34702, 18.040195 - Test Location!
-	// window.position = new google.maps.LatLng(59.17584, 16.430054);
+	// window.position = new google.maps.LatLng(59.34702, 18.040195);
 	window.map = setGoogleMap(window.position);
 
 	window.map.setCenter(window.position);
