@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>Where should I eat?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFoZAd_6SBPJBMXybVDknm0UjsTO5A0ps&sensor=false&libraries=places">
     </script>
@@ -9,36 +11,43 @@
     <script type="text/javascript">
     	var main = new Main();
     </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="twitter/js/bootstrap.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/all.css">
+    <link rel="stylesheet" type="text/css" href="twitter/css/bootstrap.css">
+    <link href="twitter/css/bootstrap-responsive.css" rel="stylesheet">
 </head>
 <body>
-    <div class="main">
-        <div class="header">
-            <h1>You should eat here!?</h1>
+    <div class="container">
+        <div class="header page-header">
+            <h1>Where should you eat!?</h1>
         </div>
-        <hr />
-        <div class="spacer"></div>
+        <div class="clearfix"></div>
         <div class="body">
             <div class="place">
-                <div id="message"></div>
+                    <div id="message" class="alert alert-error hide">
+                        <button type="button" class="close" data-dismiss="alert">#</button>
+                    </div>
+                <div class="clearfix"></div>
                 <div id="place">
-                    <div id="place_street_view"></div>
-                    <div id="place_title"></div>
+                    <div id="place_street_view" class="text-left"></div>
+                    <div id="place_title" class="text-left"></div>
                 </div>
                 <br />
-                <div class="next">
-                    <img id="redo" onclick="showNext();" src="img/arrow-redo-icon.png" />
+                <div class="span3 offset3">
+                    <button id="show_next" data-toggle="tooltip" title="Give me another suggestion!" class="btn btn-large" onclick="showNext();" type="button">Nah!</button>
                 </div>
             </div>
-            <div class="spacer"></div>
+            <div class="clearfix"></div>
             <hr />
             <div class="map">
                 <div id="map_canvas"></div>
             </div>
         </div>
-        <div class="spacer"></div>
-        <div class="footer">
-            <span>By Majid Garmaroudi 2013</span>
+        <div class="clearfix"></div>
+        <div class="footer text-center">
+            <small>By Majid Garmaroudi 2013</small>
         </div>
     </div>
 </body>

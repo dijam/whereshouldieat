@@ -1,28 +1,13 @@
 body {
-	background-color: #DFDFCB;
-	color: #88AF19;
+	background-color: white;
 }
 
 #message {
 
 }
 
-.main {
-	/*background-color: #FFFFFF;  remove after finishing*/
-	min-width: 500px;
-	height: 600px;
-	right: 25%;
-	left: 25%;
-	position: fixed;
-	margin-bottom: 20px;
-}
-
 .header {
 	margin-top: 10px;
-	border: 1px solid;
-	border-radius: 5px;
-	background-color: #FFFFFF;
-	text-align: center;
 }
 
 .spacer {
@@ -30,9 +15,7 @@ body {
 }
 
 .body {
-	border: 1px solid;
 	border-radius: 5px;
-	background-color: #FFFFFF;
 }
 
 .map {
@@ -51,13 +34,17 @@ body {
 	float: left;
 }
 
-#place_street_view img {
+/*#place_street_view img {
 	padding-top: 5px;
 	padding-left: 5px;
-}
+}*/
 
 .place {
 
+}
+
+.address {
+	font-size: 12px;
 }
 
 .next {
@@ -66,14 +53,11 @@ body {
 	margin-top: 150px;
 }
 
+.next > img {
+	cursor: pointer;
+}
+
 #place_title {
 	margin-top: 15px;
 	float: left;
 }
-
-.footer {
-	height: 10px;
-	text-align: center;
-	font-size: 15px;
-}
-

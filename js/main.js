@@ -3,8 +3,8 @@ var Main = {};
 var Main = function(){
 
 	this.init = function(){
-		window.x = document.getElementById("message");
 		setLocation();
+		// $('#show_next').tooltip();
 	};
 
 	this.init();
@@ -26,7 +26,7 @@ function setGoogleMap(position){
 
 function setStreetView(position) {
 	var viewElement = document.getElementById("place_street_view");
-	var thumbnail = '<img src="//maps.googleapis.com/maps/api/streetview?size=220x180&location=' + position.Ya + ',' + position.Za + '&fov=60&pitch=10&sensor=false" />';
+	var thumbnail = '<img class="img-polaroid" src="//maps.googleapis.com/maps/api/streetview?size=220x180&location=' + position.Ya + ',' + position.Za + '&fov=60&pitch=10&sensor=false" />';
 	viewElement.innerHTML = thumbnail;
 }
 
@@ -35,7 +35,7 @@ function setLocation() {
 		navigator.geolocation.getCurrentPosition(setPosition, showError);
 	}
 	else {
-		window.x.innerHTML="Geolocation is not supported by this browser.";
+		showErrorMessage("Geolocation is not supported by this browser.");
 	}
 }
 
@@ -46,7 +46,7 @@ function setPosition(position) {
 	window.position = new google.maps.LatLng(59.34702, 18.040195); // Uncomment for manual location
 	window.map = setGoogleMap(window.position);
 
-	createMarker(window.position, "Your Location", "http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+	createMarker(window.position, "Your are here!", "http://maps.google.com/mapfiles/ms/icons/green-dot.png");
 	new LocationFinder(window.position, window.map);
 }
 
@@ -54,21 +54,25 @@ function setPosition(position) {
 function showError(error) {
 	switch(error.code) {
 		case error.PERMISSION_DENIED:
-			window.x.innerHTML="User denied the request for Geolocation."
+			showErrorMessage("User denied the request for Geolocation.")
 			break;
 		case error.POSITION_UNAVAILABLE:
-			window.x.innerHTML="Location information is unavailable."
+			showErrorMessage("Location information is unavailable.")
 			break;
 		case error.TIMEOUT:
-			window.x.innerHTML="The request to get user location timed out."
+			showErrorMessage("The request to get user location timed out.")
 			break;
 		case error.UNKNOWN_ERROR:
-			window.x.innerHTML="An unknown error occurred."
+			showErrorMessage("An unknown error occurred.")
 			break;
 	}
 }
 
 function createMarker(location, title, icon){
+	// var infowindow = new google.maps.InfoWindow();
+	// infowindow.setContent(results[1].formatted_address);
+	// infowindow.open(map, marker);
+
 	window.marker = new google.maps.Marker({
     	map: window.map,
     	position: location,
@@ -106,12 +110,13 @@ function callbackPlaces(results, status){
 }
 
 function showLocation(location){
-	console.log(location);
-	//create google location and show it on the map! See you after concert
+	var myLocation = new google.maps.LatLng(location.geometry.location.Ya, location.geometry.location.Za);
 	createMarker(location.geometry.location, location.name);
-	setStreetView(new google.maps.LatLng(location.geometry.location.Ya, location.geometry.location.Za));
+	setStreetView(myLocation);
 	var placeHTML = document.getElementById("place_title");
-	placeHTML.innerHTML = location.name;
+	placeHTML.innerHTML = "<strong>" + location.name + "</strong>";
+	placeHTML.innerHTML += "<br />";
+	findAddress(myLocation, placeHTML);
 }
 
 function showNext(){
@@ -122,6 +127,41 @@ function showNext(){
 	showLocation(window.places[window.count]);
 }
 
+function findAddress(position, element) {
+	geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({'latLng': position}, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			if (results[0]) {
+				element.innerHTML += '<address>' + formatAddress(results[0].formatted_address) + '</address>';
+			}
+		} else {
+			console.log("Couldn't find the address for:" + position);
+			return "";
+		}
+    });
+}
+
+function formatAddress(address) {
+	var array = address.split(",");
+
+	//If something went wrong, just return the original address
+	if (array.length <= 0)
+		return address;
+
+	var results = array[0];
+	for (var i = 1; i < array.length; i++) {
+		results += "<br>" + array[i];
+	};
+
+	return results;
+}
+
+function showErrorMessage(message) {
+	var messageElement = document.getElementById("message");
+	messageElement.innerHTML = messageElement.innerHTML + "<strong>Warning!</strong> " + message;
+	messageElement.removeClass("hide");
+}
 
 // Randomize restaurants' places
 function fisherYates(myArray){
