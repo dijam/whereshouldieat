@@ -4,7 +4,6 @@ var Main = function(){
 
 	this.init = function(){
 		setLocation();
-		// $('#show_next').tooltip();
 	};
 
 	this.init();
@@ -18,7 +17,6 @@ function setGoogleMap(position){
 	};
 
 	var mapElement = document.getElementById("map_canvas");
-	console.log(mapElement);
 	return new google.maps.Map(mapElement, mapOptions);
 
 	// new google.maps.LatLng(window.position.coords.latitude, window.position.coords.longitude);
@@ -40,13 +38,17 @@ function setLocation() {
 }
 
 function setPosition(position) {
+	// Uncomment to enable auto location finder
 	// console.log("Your location: " + position);
-	// window.position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);  //Uncomment to enable auto location finder
+	// window.position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
 	window.position = new google.maps.LatLng(59.34702, 18.040195); // Uncomment for manual location
 	window.map = setGoogleMap(window.position);
 
+	window.map.setCenter(window.position);
+
 	createMarker(window.position, "Your are here!", "http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+
 	new LocationFinder(window.position, window.map);
 }
 
@@ -69,17 +71,22 @@ function showError(error) {
 }
 
 function createMarker(location, title, icon){
-	// var infowindow = new google.maps.InfoWindow();
-	// infowindow.setContent(results[1].formatted_address);
-	// infowindow.open(map, marker);
-
-	window.marker = new google.maps.Marker({
+	var marker = new google.maps.Marker({
     	map: window.map,
     	position: location,
     	icon: icon,
     	animation: google.maps.Animation.DROP,
     	title: title
 	});
+
+	// Set markers' click event
+	google.maps.event.addListener(marker, 'click', function() {
+		var infowindow = new google.maps.InfoWindow();
+		infowindow.setContent(marker.title);
+    	infowindow.open(window.map, marker);
+	});
+
+	window.marker = marker;
 }
 
 var LocationFinder = function (position, map){
@@ -97,7 +104,6 @@ var LocationFinder = function (position, map){
 function callbackPlaces(results, status){
 	window.places = new Array();
 	if (status == google.maps.places.PlacesServiceStatus.OK) {
-		console.log("Places found: " + results.length);
 		for (var i = 0; i < results.length; i++) {
 			window.places.push(results[i]);
 		}
@@ -160,7 +166,7 @@ function formatAddress(address) {
 function showErrorMessage(message) {
 	var messageElement = document.getElementById("message");
 	messageElement.innerHTML = messageElement.innerHTML + "<strong>Warning!</strong> " + message;
-	messageElement.removeClass("hide");
+	messageElement.className = "alert alert-error";
 }
 
 // Randomize restaurants' places
