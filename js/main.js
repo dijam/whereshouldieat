@@ -3,8 +3,8 @@ var Main = {};
 var Main = function(){
 	// if (1 == 2)
 	if(navigator.appName == "Microsoft Internet Explorer") {
-		alert("Internet Explorer! You better go out and search like the old time or simply come back with a better browser!");
-		exit();
+		alert("Internet Explorer! You need to change it soon or even now!");
+		// exit();
 	}
 	this.init = function(){
 		setLocation();
@@ -27,8 +27,9 @@ function setGoogleMap(position){
 }
 
 function setStreetView(position) {
+	console.log(position);
 	var viewElement = document.getElementById("place_street_view");
-	var thumbnail = '<img class="img-polaroid" src="//maps.googleapis.com/maps/api/streetview?size=220x180&location=' + position.Ya + ',' + position.Za + '&fov=60&pitch=10&sensor=false" />';
+	var thumbnail = '<img class="img-polaroid" src="//maps.googleapis.com/maps/api/streetview?size=220x180&location=' + position.lat() + ',' + position.lng() + '&fov=60&pitch=10&sensor=false&key=AIzaSyAFoZAd_6SBPJBMXybVDknm0UjsTO5A0ps" />';
 	viewElement.innerHTML = thumbnail;
 }
 
@@ -97,9 +98,9 @@ function createMarker(location, title, icon){
 
 var LocationFinder = function (position, map){
 	var request = {
-    	location: new google.maps.LatLng(position.Ya, position.Za),
-    	radius: '500',
-    	types: ['restaurant', 'cafe', 'bar', 'food', 'restaurang']
+    	location: position,
+    	radius: '1000',
+    	types: ['restaurant', 'cafe', 'bar', 'food', 'restaurang', 'grocery_or_supermarket']
 	};
 
 
@@ -109,6 +110,8 @@ var LocationFinder = function (position, map){
 
 function callbackPlaces(results, status){
 	window.places = new Array();
+	console.log(results);
+	console.log(status);
 	if (status == google.maps.places.PlacesServiceStatus.OK) {
 		for (var i = 0; i < results.length; i++) {
 			window.places.push(results[i]);
@@ -122,13 +125,24 @@ function callbackPlaces(results, status){
 }
 
 function showLocation(location){
-	var myLocation = new google.maps.LatLng(location.geometry.location.Ya, location.geometry.location.Za);
 	createMarker(location.geometry.location, location.name);
-	setStreetView(myLocation);
+	setStreetView(location.geometry.location);
 	var placeHTML = document.getElementById("place_title");
-	placeHTML.innerHTML = "<strong>" + location.name + "</strong>";
+	placeHTML.innerHTML = "<div id='star' class='text-left'></div>";
+	placeHTML.innerHTML += "<strong>" + location.name + "</strong>";
 	placeHTML.innerHTML += "<br />";
-	findAddress(myLocation, placeHTML);
+
+	//Setting up rating element
+	$('#star').raty({
+		half: true,
+		score: location.rating,
+		numberMax: 5,
+		readOnly: true,
+		starHalf: 'js/raty-2.5.2/lib/img/star-half.png',
+		starOff: 'js/raty-2.5.2/lib/img/star-off.png',
+		starOn: 'js/raty-2.5.2/lib/img/star-on.png',
+	});
+	findAddress(location.geometry.location, placeHTML);
 }
 
 function showNext(){
