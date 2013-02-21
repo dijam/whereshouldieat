@@ -7,6 +7,7 @@ var Main = function(){
 		// exit();
 	}
 	this.init = function(){
+		$('#loading').css("display", "none");
 		setLocation();
 	};
 
@@ -27,7 +28,6 @@ function setGoogleMap(position){
 }
 
 function setStreetView(position) {
-	console.log(position);
 	var viewElement = document.getElementById("place_street_view");
 	var thumbnail = '<img class="img-polaroid" src="//maps.googleapis.com/maps/api/streetview?size=220x180&location=' + position.lat() + ',' + position.lng() + '&fov=60&pitch=10&sensor=false&key=AIzaSyAFoZAd_6SBPJBMXybVDknm0UjsTO5A0ps" />';
 	viewElement.innerHTML = thumbnail;
@@ -110,8 +110,6 @@ var LocationFinder = function (position, map){
 
 function callbackPlaces(results, status){
 	window.places = new Array();
-	console.log(results);
-	console.log(status);
 	if (status == google.maps.places.PlacesServiceStatus.OK) {
 		for (var i = 0; i < results.length; i++) {
 			window.places.push(results[i]);
@@ -146,6 +144,7 @@ function showLocation(location){
 }
 
 function showNext(){
+	restartLoading();
 	window.marker.setMap(null);
 	window.count ++;
 	if (window.count >= window.places.length)
@@ -157,6 +156,7 @@ function findAddress(position, element) {
 	geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({'latLng': position}, function(results, status) {
+    	stopLoading();
 		if (status == google.maps.GeocoderStatus.OK) {
 			if (results[0]) {
 				element.innerHTML += '<address>' + formatAddress(results[0].formatted_address) + '</address>';
@@ -166,6 +166,19 @@ function findAddress(position, element) {
 			return "";
 		}
     });
+}
+
+function startLoading() {
+	$('#loading').css("display", "block");
+}
+
+function stopLoading() {
+	$('#loading').css("display", "none");
+}
+
+function restartLoading() {
+	stopLoading();
+	startLoading();
 }
 
 function formatAddress(address) {
